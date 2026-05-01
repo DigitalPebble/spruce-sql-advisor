@@ -16,9 +16,9 @@ When loaded, the skill makes Claude reliably accurate on:
 
 1. Download the latest `spruce-sql-advisor.skill` from the
    [Releases page](../../releases).
-2. In Claude.ai, go to **Settings → Capabilities → Skills** and upload the file.
+2. In Claude.ai, go to [**Settings → Customize → Skills**](https://claude.ai/customize/skills), click on +, **Create skills** and **Upload a skill**.
 3. Start a new chat and ask a CUR 2.0 SQL question — Claude will load the skill
-   automatically.
+   automatically. Alternatively, call it explicitely by typing `/spruce-sql-advisor` in a new chat window.
 
 ## Documentation
 
