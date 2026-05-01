@@ -29,6 +29,9 @@ jobs:
           sparse-checkout: skills/skill-creator/scripts
           sparse-checkout-cone-mode: false
 
+      - name: Install dependencies
+        run: pip install pyyaml
+
       - name: Validate and package
         env:
           PYTHONPATH: _anthropic_skills/skills/skill-creator
