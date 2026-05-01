@@ -1,0 +1,54 @@
+name: Package skill
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch packaging scripts from anthropics/skills
+        # We pull at build time rather than vendoring, so we always validate
+        # against the latest schema rules. Sparse checkout keeps it small.
+        uses: actions/checkout@v4
+        with:
+          repository: anthropics/skills
+          path: _anthropic_skills
+          sparse-checkout: skills/skill-creator/scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Validate and package
+        # The packager imports `quick_validate` as a sibling module, so we
+        # invoke the script with its full path. First arg = skill folder,
+        # second = output directory. Folder name must match the skill's
+        # `name` frontmatter field, so the artefact is named correctly.
+        run: |
+          python "_anthropic_skills/skills/skill-creator/scripts/package_skill.py" \
+            "$GITHUB_WORKSPACE/spruce-sql-advisor" \
+            "$GITHUB_WORKSPACE"
+
+      - name: Upload artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spruce-sql-advisor-skill
+          path: spruce-sql-advisor.skill
+          if-no-files-found: error
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: spruce-sql-advisor.skill
+          generate_release_notes: true

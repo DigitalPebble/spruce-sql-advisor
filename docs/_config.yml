@@ -1,0 +1,6 @@
+title: SPRUCE SQL Advisor
+description: A Claude skill for writing accurate AWS CUR 2.0 SQL with SPRUCE greenops columns.
+theme: jekyll-theme-minimal
+show_downloads: true
+github:
+  repository_url: https://github.com/DigitalPebble/spruce-sql-advisor
