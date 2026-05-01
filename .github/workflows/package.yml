@@ -30,14 +30,10 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Validate and package
-        # The packager imports `quick_validate` as a sibling module, so we
-        # invoke the script with its full path. First arg = skill folder,
-        # second = output directory. Folder name must match the skill's
-        # `name` frontmatter field, so the artefact is named correctly.
+        env:
+          PYTHONPATH: _anthropic_skills/skills/skill-creator
         run: |
-          python "_anthropic_skills/skills/skill-creator/scripts/package_skill.py" \
-            "$GITHUB_WORKSPACE/spruce-sql-advisor" \
-            "$GITHUB_WORKSPACE"
+          python -m scripts.package_skill ./spruce-sql-advisor .
 
       - name: Upload artefact
         uses: actions/upload-artifact@v4

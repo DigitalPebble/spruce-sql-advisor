@@ -53,8 +53,8 @@ git clone --depth 1 --filter=blob:none --sparse \
   https://github.com/anthropics/skills _anthropic_skills
 git -C _anthropic_skills sparse-checkout set skills/skill-creator/scripts
 
-python _anthropic_skills/skills/skill-creator/scripts/package_skill.py \
-  ./spruce-sql-advisor .
+PYTHONPATH=_anthropic_skills/skills/skill-creator \
+  python3 -m scripts.package_skill ./spruce-sql-advisor .
 ```
 
 ## Licence
